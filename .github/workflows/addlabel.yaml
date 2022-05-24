@@ -5,6 +5,8 @@ on:
     branches: ['*']
     types: 
       - "opened"
+      - "edited"
+      - "reopened"
   issue_comment:
     branches: ['*']
     types:
@@ -12,13 +14,43 @@ on:
       - "edited"
 
 jobs:
-  add_labels:
+  add_lgtm_label:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ startsWith(github.event.comment.body, '/add-labels') }}
+        if: ${{ startsWith(github.event.comment.body, '/lgtm') }}
         with:
-          labels: |
-            documentation
-            changelog
+          labels: lgtm
+  add_approve_label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/approve') }}
+        with:
+          labels: approved
+  add_hold_label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/hold') }}
+        with:
+          labels: do-not-merge/hold
+  add_wip_label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/wip') }}
+        with:
+          labels: do-not-merge/work-in-progress
+  add_changes_requested_label:
+    if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'changes_requested' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: changes-requested
