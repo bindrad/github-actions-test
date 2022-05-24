@@ -22,26 +22,14 @@ jobs:
         if: ${{ startsWith(github.event.comment.body, '/lgtm') }}
         with:
           labels: lgtm
-  add_approve_label:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
         if: ${{ startsWith(github.event.comment.body, '/approve') }}
         with:
           labels: approved
-  add_hold_label:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
         if: ${{ startsWith(github.event.comment.body, '/hold') }}
         with:
           labels: do-not-merge/hold
-  add_wip_label:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
         if: ${{ startsWith(github.event.comment.body, '/wip') }}
         with:
