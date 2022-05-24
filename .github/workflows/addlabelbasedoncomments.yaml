@@ -1,4 +1,4 @@
-name: Add Labels
+name: Add Labels based on comments
 
 on:
   pull_request:
@@ -12,13 +12,9 @@ on:
     types:
       - "created"
       - "edited"
-  pull_request_review:
-    branches: ['*']
-    types:
-      - "submitted"
 
 jobs:
-  labelling_job_based_on_comments:
+  labelling_job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -38,11 +34,13 @@ jobs:
         if: ${{ startsWith(github.event.comment.body, '/wip') }}
         with:
           labels: do-not-merge/work-in-progress
-  add_changes_requested_label:
-    if: ${{ github.event_name == 'pull_request_review' && github.event.review.state == 'changes_requested' }}
+  remove_label_job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-ecosystem/action-add-labels@v1
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+        if: ${{ startsWith(github.event.comment.body, '/unhold') }}
         with:
-          labels: changes-requested
+          labels: |
+            do-not-merge/hold
+            do-not-merge/work-in-progress
