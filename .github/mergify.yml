@@ -3,8 +3,8 @@ pull_request_rules:
     conditions:
       - "label!=do-not-merge/work-in-progress"
     actions:
-      assign:
-        add_users:
+      request_reviews:
+        users:
           - bindrad
   - name: close PR
     conditions:
