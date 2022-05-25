@@ -1,11 +1,11 @@
 pull_request_rules:
-  - name: assign PRs for review to nb-ohad
+  - name: assign PRs for review to bindrad
     conditions:
       - "label!=do-not-merge/work-in-progress"
     actions:
       assign:
         add_users:
-          - nb-ohad
+          - bindrad
   - name: close PR
     conditions:
       - "label=close"
@@ -48,7 +48,7 @@ pull_request_rules:
           - changes-requested
   - name: add approved label
     conditions:
-      - "approved-reviews-by=nb-ohad"
+      - "approved-reviews-by=bindrad"
     actions:
       label:
         add:
