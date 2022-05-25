@@ -46,6 +46,8 @@ pull_request_rules:
       label:
         remove:
           - changes-requested
+          - approved
+          - lgtm
   - name: add approved label
     conditions:
       - "approved-reviews-by=bindrad"
@@ -55,7 +57,7 @@ pull_request_rules:
           - approved
   - name: auto merge PR
     conditions:
-      - "#approved-reviews-by>2"
+      - "#approved-reviews-by>=1"
       - "#review-requested=0"
       - "label=approved"
       - "label!=changes-requested"
