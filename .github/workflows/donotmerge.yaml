@@ -1,0 +1,17 @@
+name: Do Not Merge
+
+on:
+  pull_request:
+    branches: ['*']
+
+jobs:
+  do-not-merge:
+    if: ${{ startsWith(github.event.*.labels.*.name, 'do-not-merge') }}
+    name: Prevent Merging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for label
+        run: |
+          echo "Pull request is labeled as 'do-not-merge'"
+          echo "This workflow fails so that the pull request cannot be merged"
+          exit 1
